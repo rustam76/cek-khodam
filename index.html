@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cek Khodam</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body id="vantajs-bg">
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="xl:w-4/12 rounded-xl py-20 px-5 bg-white bg-opacity-25 backdrop-blur-lg">
+      
+     <p id="nameText" class="hidden text-center mb-5 text-gray-100 text-xl"></p>
+      <div id="inputSection">
+        <h1 class="text-center mb-5 text-gray-100 text-xl">Cek Khodam</h1>
+        <input
+          id="name"
+          type="text"
+          class="w-full border rounded-full py-3 px-4 bg-white bg-opacity-25 backdrop-blur-lg text-gray-700 placeholder-gray-500"
+          placeholder="Masukkan Nama Kamu"
+        />
+        <button
+          id="buttonCek"
+          class="w-full bg-indigo-500 text-white rounded-full mt-3 py-3"
+        >
+          Cek Khodam
+        </button>
+      </div>
+      
+      <div id="hasil" class="text-center mt-4 text-gray-100 ">
+        <div id="loading" class="flex items-center justify-center hidden">
+          <svg
+            class="animate-spin h-8 w-8 mr-3 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A8.001 8.001 0 0112 4.472v3.387L6.891 17.62a7.96 7.96 0 01-2.89-2.329zm10-2.582A8.001 8.001 0 0112 19.528V16.14l5.109-5.118a7.96 7.96 0 01-2.89 2.329z"
+            ></path>
+          </svg>
+          Loading...
+        </div>
+
+        <div id="hasilText" class="text-center mt-4 text-gray-100"></div>
+        <div id="audioDuration" class="text-gray-300"></div>
+        <audio id="audioPlayer" controls hidden></audio>
+        <button id="ulang" class="w-full bg-indigo-500 text-white rounded-full mt-3 py-3 hidden">cek ulang</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var buttonCek = document.getElementById("buttonCek");
+    var hasilSection = document.getElementById("hasil");
+    var hasilText = document.getElementById("hasilText");
+    var audioPlayer = document.getElementById("audioPlayer");
+    var nameInput = document.getElementById("name");
+    var nameText = document.getElementById("nameText");
+    var inputSection = document.getElementById("inputSection");
+    var ulang = document.getElementById("ulang");
+
+    buttonCek.addEventListener("click", function (e) {
+      var nameKamu = nameInput.value.trim();
+
+      if (nameKamu === "") {
+        alert("Tidak boleh kosong");
+        return;
+      }
+      inputSection.style.display = "none";
+      var loading = document.getElementById("loading");
+      loading.classList.remove("hidden");
+      loading.classList.add("visible");
+      hasilText.classList.remove("visible")
+
+      setTimeout(function () {
+        getData();
+        loading.classList.remove("visible");
+        loading.classList.add("hidden");
+      }, 1000); // Waktu simulasi pengambilan data, misalnya 1 detik
+    });
+
+    function getData() {
+    
+    nameText.classList.remove("hidden");
+    nameText.classList.add("visible");
+    ulang.classList.remove("hidden");
+      var randomIndex = Math.floor(Math.random() * data.length);
+      var randomHadith = data[randomIndex];
+      hasilText.innerText = randomHadith.text;
+      nameText.innerText = nameInput.value.trim();
+      playAudio(randomHadith.audio);
+    }
+
+    function playAudio(audioSrc) {
+      audioPlayer.src = audioSrc;
+      audioPlayer.play();
+
+   
+      audioPlayer.addEventListener("ended", function () {
+        inputSection.style.display = "block";
+        nameText.classList.remove("visible");
+        nameText.classList.add("hidden");
+        hasilText.classList.add("hidden");
+        ulang.classList.add("hidden");
+       
+      });
+    }
+
+    var data = [
+      {
+        text:
+          "Sesungguhnya Allah tidak mengampuni dosa mempersekutukan-Nya (syirik), dan Dia mengampuni dosa selain syirik bagi siapa yang dikehendaki-Nya. (QS. An-Nisa: 48)",
+        audio: "audio1.mp3",
+      },
+      {
+        text:
+          "Rasulullah SAW bersabda: 'Barang siapa mati dalam keadaan menyekutukan Allah dengan sesuatu, maka dia akan masuk neraka.' (HR. Ahmad)",
+        audio: "audio2.mp3",
+      },
+    ];
+
+    ulang.addEventListener("click", function(e) {
+        location.reload();
+        ulang.classList.add("hidden");
+    })
+  </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
+
+    <script src="three.r134.min.js"></script>
+    <script src="vanta.birds.min.js"></script>
+    <script>
+      VANTA.BIRDS({
+        el: document.getElementById("vantajs-bg"),
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+      });
+    </script>
+  </body>
+</html>
